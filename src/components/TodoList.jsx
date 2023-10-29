@@ -6,6 +6,7 @@ function TodoList() {
   const dispatch = useDispatch();
   const { todos } = useSelector((state) => state.todo);
   const [editedTodo, setEditedTodo] = useState({ id: null, value: "" });
+  const [checkedTodos, setCheckedTodos] = useState({});
 
   const handleDelete = (id) => {
     dispatch(deleteTodo(id));
@@ -18,14 +19,26 @@ function TodoList() {
     }
   };
 
+  const handleToggleStatus = (id) => {
+    const updatedCheckedTodos = { ...checkedTodos };
+    updatedCheckedTodos[id] = !updatedCheckedTodos[id];
+    setCheckedTodos(updatedCheckedTodos);
+  };
+  // ...
+
   return (
     <div>
-      {todos.map((todo, index) => (
+      {todos.map((todo) => (
         <div key={todo.id}>
           <span
-            onClick={() => handleStatus(index)}
-            className={todo.status ? "line-through" : ""}
+            onClick={() => handleToggleStatus(todo.id)}
+            className={checkedTodos[todo.id] ? "line-through" : ""}
           >
+            <input
+              type="checkbox"
+              checked={checkedTodos[todo.id]}
+              onChange={() => handleToggleStatus(todo.id)}
+            />
             {todo.id === editedTodo.id ? (
               <input
                 type="text"
@@ -39,14 +52,15 @@ function TodoList() {
             )}
           </span>
           {todo.id === editedTodo.id ? (
-            <button onClick={handleEdit}>Save</button>
+            <button onClick={handleEdit}>Simpan</button>
           ) : (
             <button
               onClick={() => setEditedTodo({ id: todo.id, value: todo.value })}
             >
-              Edit
+              ✏️
             </button>
           )}
+
           <button onClick={() => handleDelete(todo.id)}>❌</button>
         </div>
       ))}

@@ -1,7 +1,7 @@
 const initialState = {
   todos: [
-    { id: 1, value: "belajar react" },
-    { id: 2, value: "belajar redux" },
+    { id: 1, value: "belajar react", status: true },
+    { id: 2, value: "belajar redux", status: false },
   ],
 };
 
@@ -11,6 +11,7 @@ function todoReducer(state = initialState, action) {
       const newTodo = {
         id: Date.now(),
         value: action.payload,
+        status: false,
       };
 
       const cloneTodos = [...state.todos, newTodo];
