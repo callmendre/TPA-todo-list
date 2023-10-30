@@ -15,7 +15,7 @@ function InputTodo() {
 
   return (
     <div>
-      <center>
+      <center className="mt-5">
         <h1>Aplikasi TodoList</h1>
       </center>
       <form>
