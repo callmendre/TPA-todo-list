@@ -79,7 +79,7 @@ function TodoList() {
       <center>
         <div className="justify-content-evenly mt-5">
           {filteredTodos.map((todo) => (
-            <div key={todo.id} className="m-2">
+            <div key={todo.id} className="m-2 justify-content-evenly">
               <span onClick={() => handleToggleStatus(todo.id)}>
                 <input
                   type="checkbox"

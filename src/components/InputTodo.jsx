@@ -15,14 +15,12 @@ function InputTodo() {
 
   return (
     <div>
-      <center className="mt-5">
-        <h1>Aplikasi TodoList</h1>
-      </center>
+      <h1 className="mt-5 align-items-center">Aplikasi TodoList</h1>
       <form>
         <div className="container mt-3 d-flex">
           <input
             type="text"
-            className="p-1 form-control"
+            className="p-1 form-control flex justify-center"
             placeholder="input todo"
             value={input}
             onChange={(e) => setInput(e.target.value)}
