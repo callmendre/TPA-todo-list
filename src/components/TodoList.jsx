@@ -7,6 +7,7 @@ function TodoList() {
   const { todos } = useSelector((state) => state.todo);
   const [editedTodo, setEditedTodo] = useState({ id: null, value: "" });
   const [checkedTodos, setCheckedTodos] = useState({});
+  const [filter, setFilter] = useState("all"); // State untuk filter
 
   const handleDelete = (id) => {
     dispatch(deleteTodo(id));
@@ -21,28 +22,53 @@ function TodoList() {
 
   const handleToggleStatus = (id) => {
     const updatedCheckedTodos = { ...checkedTodos };
-    updatedCheckedTodos[id] = !updatedCheckedTodos[id];
+    updatedCheckedTodos[id] = !checkedTodos[id];
     setCheckedTodos(updatedCheckedTodos);
+
+    // Memperbarui status menggunakan aksi Redux
+    dispatch(updateTodoStatus(id, updatedCheckedTodos[id]));
   };
-  // ...
+
+  const handleFilter = (status) => {
+    setFilter(status);
+  };
+
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === "active" && !todo.status) {
+      return false; // Filter active, tetapi tidak aktif
+    }
+    if (filter === "deactive" && todo.status) {
+      return false; // Filter deactive, tetapi aktif
+    }
+    return true; // Item memenuhi kriteria filter
+  });
+
+  function updateTodoStatus(id, status) {
+    return {
+      type: "UPDATE_TODO_STATUS",
+      payload: { id, status },
+    };
+  }
 
   return (
     <div>
-      {todos.map((todo) => (
+      <button onClick={() => handleFilter("all")}>Show All</button>
+      <button onClick={() => handleFilter("active")}>Active</button>
+      <button onClick={() => handleFilter("deactive")}>Deactive</button>
+
+      {filteredTodos.map((todo) => (
         <div key={todo.id}>
-          <span
-            onClick={() => handleToggleStatus(todo.id)}
-            className={checkedTodos[todo.id] ? "line-through" : ""}
-          >
+          <span onClick={() => handleToggleStatus(todo.id)}>
             <input
               type="checkbox"
-              checked={checkedTodos[todo.id]}
+              checked={checkedTodos[todo.id] || todo.status} // Tambahkan || false
               onChange={() => handleToggleStatus(todo.id)}
             />
+
             {todo.id === editedTodo.id ? (
               <input
                 type="text"
-                value={editedTodo.value}
+                value={editedTodo.value || ""} // Tambahkan || ""
                 onChange={(e) =>
                   setEditedTodo({ id: editedTodo.id, value: e.target.value })
                 }
@@ -60,7 +86,6 @@ function TodoList() {
               ✏️
             </button>
           )}
-
           <button onClick={() => handleDelete(todo.id)}>❌</button>
         </div>
       ))}

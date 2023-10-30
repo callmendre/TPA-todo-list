@@ -2,6 +2,8 @@ const initialState = {
   todos: [
     { id: 1, value: "belajar react", status: true },
     { id: 2, value: "belajar redux", status: false },
+    { id: 3, value: "belajar makan", status: true },
+    { id: 4, value: "belajar main fifa", status: false },
   ],
 };
 
