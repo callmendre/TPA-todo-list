@@ -28,6 +28,7 @@ function todoReducer(state = initialState, action) {
       return {
         todos: filterTodo,
       };
+
     case "EDIT_TODO":
       const editedTodos = state.todos.map((todo) => {
         if (todo.id === action.payload.id) {
@@ -40,6 +41,20 @@ function todoReducer(state = initialState, action) {
       });
       return {
         todos: editedTodos,
+      };
+
+    case "UPDATE_TODO_STATUS":
+      return {
+        todos: state.todos.map((todo) => {
+          if (todo.id === action.payload.id) {
+            return {
+              ...todo,
+              status: action.payload.status,
+            };
+          }
+
+          return todo;
+        }),
       };
     default:
       return state;

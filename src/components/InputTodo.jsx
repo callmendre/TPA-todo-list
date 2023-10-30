@@ -15,14 +15,22 @@ function InputTodo() {
 
   return (
     <div>
+      <center>
+        <h1>Aplikasi TodoList</h1>
+      </center>
       <form>
-        <input
-          type="text"
-          placeholder="input todo"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-        <button onClick={handleClick}>Add</button>
+        <div className="container mt-3 d-flex">
+          <input
+            type="text"
+            className="p-1 form-control"
+            placeholder="input todo"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <button className="btn btn-primary ml-2" onClick={handleClick}>
+            Add
+          </button>
+        </div>
       </form>
     </div>
   );
